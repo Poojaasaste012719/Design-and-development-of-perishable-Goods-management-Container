@@ -1,2 +1,69 @@
 # Design-and-development-of-perishable-Goods-management-Container
 The Perishable Goods Management Container is designed to safely store perishable items such as fruits, vegetables, and dairy products. These goods are highly sensitive to environmental factors like temperature, humidity, and moisture, and they spoil quickly if not maintained under controlled conditions. 
+
+Perishable Goods Management Container
+
+This project presents the design and development of a smart Perishable Goods Management Container used to store temperature- and humidity-sensitive items such as fruits, vegetables, and dairy products. The system helps prevent spoilage by continuously monitoring environmental conditions and maintaining them within safe limits.
+
+🧩 Overview
+
+Perishable goods spoil quickly if temperature and humidity are not properly controlled. This system uses sensors, a PIC microcontroller, and a motor-based circulation mechanism to automatically balance the environment inside the container. The real-time readings and system status are displayed on an LCD screen.
+
+🚀 Features
+
+Real-time monitoring of temperature, humidity, and moisture
+
+PIC microcontroller for data processing and decision-making
+
+Automatic motor-based circulation system
+
+LCD display for live sensor readings
+
+Built using low-cost, energy-efficient components
+
+Programmed in Embedded C
+
+🛠 Technologies Used
+
+PIC Microcontroller
+
+Temperature Sensor
+
+Humidity/Moisture Sensor
+
+LCD Display (16×2)
+
+DC Motor / Fan for circulation
+
+Embedded C Programming
+
+📌 Applications
+
+Supermarkets
+
+Cold storage warehouses
+
+Transport vehicles
+
+Small shops or vendors
+
+🌱 Future Scope
+
+IoT-based remote monitoring
+
+AI-based spoilage prediction
+
+Solar-powered container
+
+✅ 2. Abstract
+
+The Perishable Goods Management Container is an embedded system designed to preserve perishable items by maintaining controlled environmental conditions. Items like fruits, vegetables, and dairy products are highly sensitive to temperature and humidity fluctuations. This system uses sensors to continuously measure temperature and moisture levels inside the container. A PIC microcontroller processes the sensor data and compares it with predefined thresholds. If the values exceed safe limits, a motor-based circulation system is activated to restore balance. Real-time readings are displayed on an LCD screen for easy monitoring. The project is cost-effective, energy-efficient, and suitable for supermarkets, cold storage facilities, and transport vehicles. Future enhancements include IoT, AI, and solar power integration to make the system smarter and more efficient.
+
+✅ 3. Problem Statement & Solution
+Problem Statement
+
+Perishable items such as fruits, vegetables, and dairy products spoil quickly when exposed to improper temperature, humidity, and moisture levels. Many small businesses, storage facilities, and transport systems lack affordable, automated solutions for monitoring and controlling these environmental conditions. This leads to significant food wastage, financial loss, and reduced product quality.
+
+Proposed Solution
+
+To address this issue, a Perishable Goods Management Container is developed using a PIC microcontroller. The system uses sensors to measure temperature and moisture levels, which are then compared with preset thresholds. If the readings exceed safe limits, a motor-based circulation system activates to stabilize the environment. The LCD display shows current readings and system status, allowing easy monitoring. This solution reduces spoilage, improves shelf life, and ensures better quality preservation using low-cost, reliable embedded hardware.
