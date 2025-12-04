@@ -1,0 +1,232 @@
+// PIC16F877A Configuration Bit Settings
+
+// CONFIG
+#pragma config FOSC = HS        // Oscillator Selection bits (HS oscillator)
+#pragma config WDTE = OFF       // Watchdog Timer Enable bit (WDT disabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP = OFF        // Low-Voltage In-Circuit Serial Programming Enable bit
+#pragma config CPD = OFF        // Data EEPROM Memory Code Protection bit
+#pragma config WRT = OFF        // Flash Program Memory Write Enable bits
+#pragma config CP = OFF         // Flash Program Memory Code Protection bit
+
+#include <xc.h>
+#include <stdio.h>
+
+#define _XTAL_FREQ 8000000  // Define oscillator frequency
+
+// Define LCD control pins
+#define RS RB0
+#define EN RB1
+#define D4 RB4
+#define D5 RB5
+#define D6 RB6
+#define D7 RB7
+
+// Define relay control pins
+#define RELAY1 RD3
+#define RELAY2 RD4
+
+// Define input switches
+#define SW1 RC0
+#define SW2 RC1
+#define SW3 RC2
+#define SW4 RC3
+#define SW5 RC4
+#define SW6 RC5
+#define SW7 RC6
+
+// Function prototypes
+void lcd_init();
+void lcd_cmd(unsigned char a);
+void lcd_data(unsigned char b);
+void lcd_show(const char *s);
+void lcd_delay();
+void timer_countdown();
+
+void main() {
+    // Set the direction of ports
+    TRISB = 0x00; // Set PORTB as output for LCD control
+    TRISD3 = 0;   // Set RD3 as output for Relay 1
+    TRISD4 = 0;   // Set RD4 as output for Relay 2
+    TRISC = 0xFF; // Set PORTC as input for switches
+
+    lcd_init();   // Initialize LCD
+
+    // Display "Grain Optimization" at startup
+    lcd_cmd(0x01); // Clear LCD
+    lcd_cmd(0x80); // Move cursor to the beginning of line 1
+    lcd_show("Grain Optimizer");
+    __delay_ms(2000); // Delay for 2 seconds to allow the message to be read
+    
+    while (1) {
+        if (SW1 == 0) { // Switch 1 pressed, start timer countdown
+          //  timer_countdown();
+        }
+        
+        if (SW2 == 0) { // Switch 2 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Chavali");
+            lcd_cmd(0xC0); // Move to line 2
+             lcd_show("Process 1");
+            __delay_ms(2000); // Display for 2 seconds
+            
+             timer_countdown();
+             
+              __delay_ms(2000); // Display for 2 seconds
+             
+        } else if (SW3 == 0) { // Switch 3 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Mung bean");
+            lcd_cmd(0xC0); // Move to line 2
+            lcd_show("Process 2");
+            __delay_ms(2000); // Display for 2 seconds
+            
+            timer_countdown();
+            
+             timer_countdown();
+            
+             __delay_ms(2000); // Display for 2 seconds
+             
+             
+                       
+        } else if (SW4 == 0) { // Switch 4 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Pearl millet");
+            lcd_cmd(0xC0); // Move to line 2
+            lcd_show("Process 3");
+            __delay_ms(2000); // Display for 2 seconds
+            
+             timer_countdown();
+              timer_countdown();
+               timer_countdown();
+               
+            
+             __delay_ms(2000); // Display for 2 seconds
+             
+             
+        } else if (SW5 == 0) { // Switch 5 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Corn     ");
+            lcd_cmd(0xC0); // Move to line 2
+            lcd_show("Process 4");
+            __delay_ms(2000); // Display for 2 seconds
+            
+            timer_countdown();
+              timer_countdown();
+               timer_countdown();
+                timer_countdown();
+            
+             __delay_ms(2000); // Display for 2 seconds
+             
+        } else if (SW6 == 0) { // Switch 6 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Barley      ");
+            lcd_cmd(0xC0); // Move to line 2
+            lcd_show("Process 5");
+            __delay_ms(2000); // Display for 2 seconds
+            
+             timer_countdown();
+              timer_countdown();
+               timer_countdown();
+                timer_countdown();
+                 timer_countdown();
+                 
+            
+             __delay_ms(2000); // Display for 2 seconds
+             
+        } else if (SW7 == 0) { // Switch 7 pressed
+            lcd_cmd(0x01); // Clear LCD
+            lcd_cmd(0x80); // Move cursor to the beginning of line 1
+            lcd_show("Chickpea      ");
+            lcd_cmd(0xC0); // Move to line 2
+            lcd_show("Process 6");
+            __delay_ms(2000); // Display for 2 seconds
+            
+            
+        }
+    }
+}
+
+// Function to initialize the LCD
+void lcd_init() {
+    lcd_cmd(0x02); // Initialize LCD in 4-bit mode
+    lcd_cmd(0x28); // 4-bit mode, 2 lines, 5x7 font
+    lcd_cmd(0x0E); // Display on, cursor blinking
+    lcd_cmd(0x06); // Entry mode: increment cursor, no shift
+    lcd_cmd(0x80); // Move cursor to the beginning of line 1
+}
+
+// Function to send commands to the LCD
+void lcd_cmd(unsigned char a) {
+    RS = 0; // RS = 0 for command mode
+    PORTB &= 0x0F; // Clear upper nibble
+    PORTB |= (a & 0xF0); // Send upper nibble
+    EN = 1; // Enable pulse
+    lcd_delay();
+    EN = 0;
+    lcd_delay();
+    PORTB &= 0x0F; // Clear upper nibble
+    PORTB |= ((a << 4) & 0xF0); // Send lower nibble
+    EN = 1; // Enable pulse
+    lcd_delay();
+    EN = 0;
+    lcd_delay();
+}
+
+// Function to send data to the LCD
+void lcd_data(unsigned char b) {
+    RS = 1; // RS = 1 for data mode
+    PORTB &= 0x0F; // Clear upper nibble
+    PORTB |= (b & 0xF0); // Send upper nibble
+    EN = 1; // Enable pulse
+    lcd_delay();
+    EN = 0;
+    lcd_delay();
+    PORTB &= 0x0F; // Clear upper nibble
+    PORTB |= ((b << 4) & 0xF0); // Send lower nibble
+    EN = 1; // Enable pulse
+    lcd_delay();
+    EN = 0;
+    lcd_delay();
+}
+
+// Function to display a string on the LCD
+void lcd_show(const char *s) {
+    while (*s) {
+        lcd_data(*s++); // Send each character one by one
+    }
+}
+
+// Simple delay function for the LCD
+void lcd_delay() {
+    __delay_ms(2);
+}
+
+// Function to handle a 10-second timer countdown
+void timer_countdown() {
+    RELAY1 = 1; // Turn on Relay 1
+    RELAY2 = 0; // Ensure Relay 2 is off
+
+    for (int i = 10; i >= 0; i--) {
+        char buffer[16];
+        sprintf(buffer, "Timer: %02d sec", i);
+        lcd_cmd(0x01); // Clear LCD
+        lcd_cmd(0x80); // Move cursor to the beginning of line 1
+        lcd_show(buffer);
+        __delay_ms(1000); // 1-second delay
+    }
+
+    RELAY1 = 0; // Turn off Relay 1
+    RELAY2 = 1; // Turn on Relay 2
+
+    lcd_cmd(0x01); // Clear LCD
+    lcd_cmd(0x80); // Move cursor to the beginning of line 1
+    lcd_show("Task Complete");
+    __delay_ms(2000); // Display for 2 seconds
+}
